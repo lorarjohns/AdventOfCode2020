@@ -36,12 +36,10 @@ bool isTree(GridLocation loc, vector<string>& map) {
     return false;
 }
 
-GridLocation getNextLocation(GridLocation currentLocation, int maxCol) {
+GridLocation getNextLocation(GridLocation currentLocation, int maxCol, GridLocation tobogganStep) {
     // the toboggan goes right three and down 1.
     // to advance, add 3 to current col and add
     // 1 to current row.
-
-    GridLocation tobogganStep = {1, 3};
 
     int nextRow = currentLocation.row + tobogganStep.row;
     int nextCol = (currentLocation.col + tobogganStep.col) % maxCol;
@@ -49,7 +47,7 @@ GridLocation getNextLocation(GridLocation currentLocation, int maxCol) {
     return GridLocation(nextRow, nextCol);
 
 }
-int traverseGridForTrees(string inputFile) {
+int traverseGridForTrees(string inputFile, GridLocation tobogganStep) {
     vector<string> map = buildMap(inputFile);
 
     // get map size
@@ -60,7 +58,7 @@ int traverseGridForTrees(string inputFile) {
     GridLocation startLocation = {0, 0};
     GridLocation endLocation = {numRows - 1, numCols - 1};
 
-    cout << "End loc: (" << endLocation.row << ", " << endLocation.col << ")" << endl;
+    // cout << "End loc: (" << endLocation.row << ", " << endLocation.col << ")" << endl;
 
     // define a placeholder for the current step
     // and a variable to count trees
@@ -68,24 +66,49 @@ int traverseGridForTrees(string inputFile) {
     int treeCount = 0;
 
     while ((currentLocation.row < numRows) && (currentLocation.col < numCols)) {
-        cout << "current: (" << currentLocation.row << ", " << currentLocation.col << ")" << endl;
+        // cout << "current: (" << currentLocation.row << ", " << currentLocation.col << ")" << endl;
         // check this location
         if (isTree(currentLocation, map)) {
-            cout << "tree found" << endl;
+            // cout << "tree found" << endl;
             treeCount++;
         }
         // go to the next location
-        GridLocation nextLocation = getNextLocation(currentLocation, numCols);
+        GridLocation nextLocation = getNextLocation(currentLocation, numCols, tobogganStep);
         currentLocation = nextLocation;
     }
     return treeCount;
 }
 
+long long productOfForest(string inputFile, vector<GridLocation> listOfSlopes) {
+    long long product = 1;
+    for (GridLocation tobogganStep: listOfSlopes) {
+        int treeCount = traverseGridForTrees(inputFile, tobogganStep);
+        cout << "Current count: " << treeCount << endl;
+        product *= treeCount;
+    }
+    return product;
+}
+
 void dayThreeDemo() {
+    string testFile = "/Users/lorajohns/CLionProjects/AOC2020/data/test3.2.txt";
     string inputFile = "/Users/lorajohns/CLionProjects/AOC2020/data/input3.txt";
-    vector<string> map = buildMap(inputFile);
-    
-    int numTrees = traverseGridForTrees(inputFile);
+
+    GridLocation tobogganStep = {1, 3};
+
+    int numTrees = traverseGridForTrees(inputFile, tobogganStep);
     cout << "day 3, part 1" << endl;
     cout << "Number of trees: " << numTrees << endl;
+
+    cout << "day 3, part 2" << endl;
+    vector<GridLocation> slopes = {
+            GridLocation(1, 1),
+            GridLocation(1, 3),
+            GridLocation(1, 5),
+            GridLocation(1, 7),
+            GridLocation(2, 1)
+    };
+
+    long long forestCount = productOfForest(inputFile, slopes);
+    cout << "Product: " << forestCount << endl;
+
 }
