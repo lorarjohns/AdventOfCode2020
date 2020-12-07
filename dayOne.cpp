@@ -1,12 +1,12 @@
 //
 // Created by Lora Johns on 12/6/20.
-// Advent of Code Day 1 https://adventofcode.com/2020/day/1
+// Advent of Code Day 1
+// https://adventofcode.com/2020/day/1
 //
 
 #include "dayOne.h"
 #include "aoc2020.h"
 #include <iostream>
-#include <fstream>
 #include <vector>
 #include <string>
 #include <algorithm>

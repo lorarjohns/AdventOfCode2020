@@ -24,3 +24,4 @@ vector<int> getInput(string inputFile) {
     }
     return input;
 }
+
