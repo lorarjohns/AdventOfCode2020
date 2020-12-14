@@ -2,6 +2,7 @@
 #include "dayOne.h"
 #include "dayTwo.h"
 #include "dayThree.h"
+#include "dayFour.h"
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -12,15 +13,8 @@ int main() {
 
     // dayOneDemo();
     // dayTwoDemo();
-
-    string inputFile = "/Users/lorajohns/CLionProjects/AOC2020/data/input2.txt";
-    ifstream file(inputFile);
-
-    // string s;
-    // while (getline(file, s)) {
-    //    cout << s << endl;
-    // }
-    dayThreeDemo();
+    // dayThreeDemo();
+    dayFourDemo();
 
     return 0;
 }
