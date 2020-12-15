@@ -63,10 +63,56 @@ def _get_containing_types_helper(inverted_idx, start_bag, current_bag, result=se
             # implicit backtrack
 
 
-def get_containing_types(bag_type, rules=None):
+def get_containing_types(bag_type, rules=None, inverted=True):
     if not rules:
         rules = get_rules(get_input())
-    inverted_idx = make_inverted_index(rules)
     result = set()
-    _get_containing_types_helper(inverted_idx, bag_type, bag_type, result)
+    graph = make_inverted_index(rules) if inverted else rules
+    _get_containing_types_helper(graph, bag_type, bag_type, result)
     return result
+
+def _get_inner_bag_sum_helper(rules, start_bag, current_bag, total=0):
+    if (current_bag == start_bag) and total:
+        return total
+    inner_bags = rules.get(current_bag)
+    if not inner_bags:
+        return total
+    for next_bag, count in inner_bags.items():
+        total += count
+        total += count * _get_inner_bag_sum_helper(rules, start_bag, next_bag, 0)
+    return total
+
+def get_inner_bag_sum(bag_type, rules=None):
+    if not rules:
+        rules = get_rules(get_input())
+    total = _get_inner_bag_sum_helper(rules, bag_type, bag_type, 0)
+    return total
+
+
+test1 = """light red bags contain 1 bright white bag, 2 muted yellow bags.
+dark orange bags contain 3 bright white bags, 4 muted yellow bags.
+bright white bags contain 1 shiny gold bag.
+muted yellow bags contain 2 shiny gold bags, 9 faded blue bags.
+shiny gold bags contain 1 dark olive bag, 2 vibrant plum bags.
+dark olive bags contain 3 faded blue bags, 4 dotted black bags.
+vibrant plum bags contain 5 faded blue bags, 6 dotted black bags.
+faded blue bags contain no other bags.
+dotted black bags contain no other bags.""".split("\n")
+test1_rules = get_rules(test1)
+test1_sum = get_inner_bag_sum("shiny gold", test1_rules)
+
+assert test1_sum == 32, f"test1 sum: {test1_sum}"
+
+test2 = """shiny gold bags contain 2 dark red bags.
+dark red bags contain 2 dark orange bags.
+dark orange bags contain 2 dark yellow bags.
+dark yellow bags contain 2 dark green bags.
+dark green bags contain 2 dark blue bags.
+dark blue bags contain 2 dark violet bags.
+dark violet bags contain no other bags.""".split("\n")
+test2_rules = get_rules(test2)
+test2_sum = get_inner_bag_sum("shiny gold", test2_rules)
+
+assert test2_sum == 126, f"test2 sum: {test2_sum}"
+
+print(get_inner_bag_sum("shiny gold"))
