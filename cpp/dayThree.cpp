@@ -83,7 +83,6 @@ long long productOfForest(string inputFile, vector<GridLocation> listOfSlopes) {
     long long product = 1;
     for (GridLocation tobogganStep: listOfSlopes) {
         int treeCount = traverseGridForTrees(inputFile, tobogganStep);
-        cout << "Current count: " << treeCount << endl;
         product *= treeCount;
     }
     return product;

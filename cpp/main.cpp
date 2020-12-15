@@ -11,9 +11,9 @@ using namespace std;
 
 int main() {
 
-    // dayOneDemo();
-    // dayTwoDemo();
-    // dayThreeDemo();
+    dayOneDemo();
+    dayTwoDemo();
+    dayThreeDemo();
     dayFourDemo();
 
     return 0;

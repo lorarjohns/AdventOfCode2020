@@ -101,14 +101,14 @@ void dayOneDemo() {
     int targetSum = 2020;
     string inputFile = "/Users/lorajohns/AdventOfCode/data/input1.1.txt";
 
-    cout << "Part 1 Answer" << endl;
+    cout << "day 1, part 1" << endl;
     answers = twoSum(inputFile, targetSum);
     for (long long x: answers) {
         cout << "Product: " << x << "\n";
     }
 
     // part two
-    cout << "Part 2 Answer" << endl;
+    cout << "day 1, part 2" << endl;
     vector<int> subset = subsetSum(inputFile, targetSum);
     if (subset.size() > 0) {
         long long product = 1;
