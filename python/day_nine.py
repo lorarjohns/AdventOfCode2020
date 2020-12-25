@@ -12,8 +12,6 @@ def has_two_sum(target, preamble):
 
 
 def find_invalid_num(lines, preamble_len=25):
-    # preamble_lines = lines[0:preamble_length]
-    # encoded_lines = lines[preamble_length:]
     lines = [int(n) for n in lines]
     for i, line in enumerate(lines):
         if i < preamble_len:
@@ -25,5 +23,4 @@ def find_invalid_num(lines, preamble_len=25):
 
 def solve_part_one():
     lines = aoc.lines_list("../data/input9.txt")
-    ans = find_invalid_num(lines)
-    print(ans)
+    print(find_invalid_num(lines))
